@@ -1,31 +1,28 @@
-import express, { Application, Request, Response } from 'express'
-import cors from 'cors'
-import userService from './app/modules/user/user.service'
-import usersRoutes from './app/modules/user/user.route'
-const app: Application = express()
+import cors from 'cors';
+import express, { Application, Request, Response } from 'express';
+import morgan from 'morgan';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import usersRoutes from './app/modules/user/user.route';
+import config from './config';
 
-app.use(cors())
+const app: Application = express();
 
+app.use(cors());
+if (config.node_env === 'development') {
+  app.use(morgan('dev'));
+}
 // TODO:: BODY PARSER
-app.use(express.json())
+app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
   })
-)
+);
 // Application routes
-
-app.use('/api/v1/users', usersRoutes)
-
+app.use('/api/v1/users', usersRoutes);
 app.get('/', async (req: Request, res: Response) => {
-  res.send('Hello')
-})
+  res.send('Hello');
+});
+app.use(globalErrorHandler);
 
-app.post('/', async (req: Request, res: Response) => {
-  const data = req.body
-  console.log(data)
-  const user = await userService.createUser(data)
-  res.send(user)
-})
-
-export default app
+export default app;
