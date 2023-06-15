@@ -3,13 +3,13 @@ import validateRequest from '../../middlewares/validateRequest';
 import { UserController } from './user.controller';
 import { UserValidation } from './user.validation';
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router
+userRouter
   .route('/create-user')
   .post(
     validateRequest(UserValidation.createUserZodSchema),
     UserController.createUser
   );
 
-export default router;
+export { userRouter };
