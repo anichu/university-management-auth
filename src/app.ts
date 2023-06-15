@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 import morgan from 'morgan';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import { academicSemesterRouter } from './app/modules/academicSemester/academicSemester.route';
 import usersRoutes from './app/modules/user/user.route';
 import config from './config';
 
@@ -20,6 +21,7 @@ app.use(
 );
 // Application routes
 app.use('/api/v1/users', usersRoutes);
+app.use('/api/v1/academic-semesters', academicSemesterRouter.router);
 app.get('/', async (req: Request, res: Response) => {
   res.send('Hello');
 });
