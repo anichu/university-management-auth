@@ -11,5 +11,7 @@ academicSemesterRouter
     validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
     AcademicSemesterController.createAcademicSemester
   );
-
+academicSemesterRouter
+  .route('/')
+  .get(AcademicSemesterController.getAllSemesters);
 export { academicSemesterRouter };
