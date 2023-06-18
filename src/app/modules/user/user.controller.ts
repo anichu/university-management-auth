@@ -23,7 +23,7 @@ const createUser = catchAsync(
       message: 'user created successfully',
       data: result,
     });
-    next();
+    // next();
   }
 );
 

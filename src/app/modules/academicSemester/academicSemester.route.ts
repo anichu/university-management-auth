@@ -6,12 +6,21 @@ import { AcademicSemesterValidation } from './academicSemester.validation';
 const academicSemesterRouter = express.Router();
 
 academicSemesterRouter
+  .route('/')
+  .get(AcademicSemesterController.getAllSemesters);
+academicSemesterRouter
   .route('/create-semester')
   .post(
     validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
     AcademicSemesterController.createAcademicSemester
   );
 academicSemesterRouter
-  .route('/')
-  .get(AcademicSemesterController.getAllSemesters);
+  .route('/:id')
+  .get(AcademicSemesterController.getSingleSemester)
+  .patch(
+    validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+    AcademicSemesterController.updateSemester
+  )
+  .delete(AcademicSemesterController.deleteSemester);
+
 export { academicSemesterRouter };

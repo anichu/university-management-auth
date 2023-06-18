@@ -42,7 +42,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       },
     ],
   });
-  next();
+  //next();
 });
 
 export default app;
