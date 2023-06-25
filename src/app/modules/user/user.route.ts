@@ -12,4 +12,10 @@ userRouter
     UserController.createStudent
   );
 
+userRouter
+  .route('/create-faculty')
+  .post(
+    validateRequest(UserValidation.createFacultyZodSchema),
+    UserController.createFaculty
+  );
 export { userRouter };

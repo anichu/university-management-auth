@@ -4,75 +4,73 @@ import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import { sendResponse } from '../../../shared/sendResponse';
-import { studentFilterableFields } from './student.constant';
-import { IStudent } from './student.interface';
-import { StudentService } from './student.service';
+import { facultyFilterableFields } from './faculty.constant';
+import { IFaculty } from './faculty.interface';
+import { FacultyService } from './faculty.service';
 
-const getAllStudents = catchAsync(
+const getAllFaculties = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const filters = pick(req.query, studentFilterableFields);
-    console.log(filters);
+    const filters = pick(req.query, facultyFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
-    const result = await StudentService.getAllStudents(
+    const result = await FacultyService.getAllFaculties(
       filters,
       paginationOptions
     );
 
-    sendResponse<IStudent[]>(res, {
+    sendResponse<IFaculty[]>(res, {
       statusCode: httpStatus.OK,
       success: true,
       meta: result.meta,
-      message: 'Students retrieved successfully',
+      message: 'Faculties retrieved successfully',
       data: result.data,
     });
   }
 );
 
-const getSingleStudent = catchAsync(
+const getSingleFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
 
-    const result = await StudentService.getSingleStudent(id);
-
-    sendResponse<IStudent>(res, {
+    const result = await FacultyService.getSingleFaculty(id);
+    sendResponse<IFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Student retrieved successfully',
+      message: 'Faculty retrieved successfully',
       data: result,
     });
   }
 );
 
-const updateStudent = catchAsync(
+const updateFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const updatedData = req.body;
-    const result = await StudentService.updateStudent(id, updatedData);
-    sendResponse<IStudent>(res, {
+    const result = await FacultyService.updateFaculty(id, updatedData);
+    sendResponse<IFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Student updated successfully',
+      message: 'Faculty updated successfully',
       data: result,
     });
   }
 );
 
-const deleteStudent = catchAsync(
+const deleteFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    const result = await StudentService.deleteStudent(id);
-    sendResponse<IStudent>(res, {
+    const result = await FacultyService.deleteFaculty(id);
+    sendResponse<IFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Student deleted successfully',
+      message: 'Faculty deleted successfully',
       data: result,
     });
   }
 );
 
-export const StudentController = {
-  getAllStudents,
-  getSingleStudent,
-  updateStudent,
-  deleteStudent,
+export const FacultyController = {
+  getAllFaculties,
+  getSingleFaculty,
+  updateFaculty,
+  deleteFaculty,
 };

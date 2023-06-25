@@ -1,8 +1,8 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { bloodGroup, gender } from './student.constant';
-import { IStudent, StudentModel } from './student.interface';
+import { bloodGroup, gender } from '../student/student.constant';
+import { FacultyModel, IFaculty } from './faculty.interface';
 
-export const StudentSchema = new Schema<IStudent, StudentModel>(
+const FacultySchema = new Schema<IFaculty, FacultyModel>(
   {
     id: {
       type: String,
@@ -56,6 +56,10 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
       type: String,
       required: true,
     },
+    designation: {
+      type: String,
+      required: true,
+    },
     permanentAddress: {
       type: String,
       required: true,
@@ -63,27 +67,6 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
     bloodGroup: {
       type: String,
       enum: bloodGroup,
-    },
-    guardian: {
-      required: true,
-      type: {
-        fatherName: { type: String, required: true },
-        fatherOccupation: { type: String, required: true },
-        fatherContactNo: { type: String, required: true },
-        motherName: { type: String, required: true },
-        motherOccupation: { type: String, required: true },
-        motherContactNo: { type: String, required: true },
-        address: { type: String, required: true },
-      },
-    },
-    localGuardian: {
-      required: true,
-      type: {
-        name: { type: String, required: true },
-        occupation: { type: String, required: true },
-        contactNo: { type: String, required: true },
-        address: { type: String, required: true },
-      },
     },
     academicFaculty: {
       type: mongoose.Schema.Types.ObjectId,
@@ -95,17 +78,12 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
       ref: 'AcademicDepartment',
       required: true,
     },
-    academicSemester: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'AcademicSemester',
-      required: true,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-const Student = model<IStudent, StudentModel>('Student', StudentSchema);
+const Faculty = model<IFaculty, FacultyModel>('Faculty', FacultySchema);
 
-export default Student;
+export default Faculty;

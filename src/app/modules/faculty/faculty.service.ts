@@ -4,21 +4,21 @@ import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelpers';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { studentSearchableFields } from './student.constant';
-import { IStudent, IStudentFilters } from './student.interface';
-import Student from './student.model';
+import { facultySearchableFields } from './faculty.constant';
+import { IFaculty, IFacultyFilters } from './faculty.interface';
+import Faculty from './faculty.model';
 
-const getAllStudents = async (
-  filters: IStudentFilters,
+const getAllFaculties = async (
+  filters: IFacultyFilters,
   paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<IStudent[]>> => {
+): Promise<IGenericResponse<IFaculty[]>> => {
   const { searchTerm, ...filtersData } = filters;
 
   const andCondition = [];
 
   if (searchTerm) {
     andCondition.push({
-      $or: studentSearchableFields.map(field => ({
+      $or: facultySearchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',
@@ -42,14 +42,13 @@ const getAllStudents = async (
   }
 
   const whereCondition = andCondition.length > 0 ? { $and: andCondition } : {};
-  const result = await Student.find(whereCondition)
-    .populate('academicSemester')
+  const result = await Faculty.find(whereCondition)
     .populate('academicFaculty')
     .populate('academicDepartment')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-  const total = await Student.countDocuments();
+  const total = await Faculty.countDocuments();
 
   return {
     meta: {
@@ -61,25 +60,24 @@ const getAllStudents = async (
   };
 };
 
-const getSingleStudent = async (id: string): Promise<IStudent | null> => {
-  const result = await Student.findById(id)
-    .populate('academicSemester')
+const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
+  const result = await Faculty.findById(id)
     .populate('academicFaculty')
     .populate('academicDepartment');
   return result;
 };
 
-const updateStudent = async (
+const updateFaculty = async (
   id: string,
-  payload: Partial<IStudent>
-): Promise<IStudent | null> => {
-  const { guardian, localGuardian, name, ...studentData } = payload;
+  payload: Partial<IFaculty>
+): Promise<IFaculty | null> => {
+  const { name, ...facultyData } = payload;
 
-  const isExist = await Student.findById(id);
+  const isExist = await Faculty.findById(id);
   if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found');
   }
-  const updatedData: Partial<IStudent> = { ...studentData };
+  const updatedData: Partial<IFaculty> = { ...facultyData };
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
@@ -88,34 +86,20 @@ const updateStudent = async (
     });
   }
 
-  if (guardian && Object.keys(guardian).length > 0) {
-    Object.keys(guardian).forEach(key => {
-      const keyName = `name.${key}`;
-      (updatedData as any)[keyName] = guardian[key as keyof typeof guardian];
-    });
-  }
-  if (localGuardian && Object.keys(localGuardian).length > 0) {
-    Object.keys(localGuardian).forEach(key => {
-      const keyName = `name.${key}`;
-      (updatedData as any)[keyName] =
-        localGuardian[key as keyof typeof localGuardian];
-    });
-  }
-
-  const result = await Student.findOneAndUpdate({ _id: id }, updatedData, {
+  const result = await Faculty.findOneAndUpdate({ _id: id }, updatedData, {
     new: true,
   });
   return result;
 };
 
-const deleteStudent = async (id: string): Promise<IStudent | null> => {
-  const result = await Student.findByIdAndDelete(id);
+const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
+  const result = await Faculty.findByIdAndDelete(id);
   return result;
 };
 
-export const StudentService = {
-  getAllStudents,
-  getSingleStudent,
-  updateStudent,
-  deleteStudent,
+export const FacultyService = {
+  getAllFaculties,
+  getSingleFaculty,
+  updateFaculty,
+  deleteFaculty,
 };
