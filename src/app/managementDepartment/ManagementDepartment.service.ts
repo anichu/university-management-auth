@@ -20,6 +20,7 @@ const getSingleDepartment = async (
   id: string
 ): Promise<IManagementDepartment | null> => {
   const result = await ManagementDepartment.findById(id);
+  console.log(id, result);
   return result;
 };
 
@@ -45,7 +46,7 @@ const getAllDepartments = async (
     });
   }
 
-  // Filters needs $and to fullfill all the conditions
+  // Filters needs $and to fulfill all the conditions
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({

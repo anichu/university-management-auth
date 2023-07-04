@@ -38,7 +38,8 @@ const getAllDepartments = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = ManagementDepartmentService.getSingleDepartment(id);
+  console.log(id);
+  const result = await ManagementDepartmentService.getSingleDepartment(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -51,7 +52,7 @@ const updateDepartment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = req.body;
 
-  const result = ManagementDepartmentService.updateDepartment(id, data);
+  const result = await ManagementDepartmentService.updateDepartment(id, data);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -62,7 +63,7 @@ const updateDepartment = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteDepartment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = ManagementDepartmentService.deleteDepartment(id);
+  const result = await ManagementDepartmentService.deleteDepartment(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
