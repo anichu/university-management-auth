@@ -97,7 +97,7 @@ const createFaculty = async (
   }
 
   // TODO:: set role
-  user.role = 'student';
+  user.role = 'faculty';
 
   // TODO:: generate faculty id
 
