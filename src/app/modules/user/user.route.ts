@@ -18,4 +18,10 @@ userRouter
     validateRequest(UserValidation.createFacultyZodSchema),
     UserController.createFaculty
   );
+userRouter
+  .route('/create-admin')
+  .post(
+    validateRequest(UserValidation.createAdminZodSchema),
+    UserController.createAdmin
+  );
 export { userRouter };

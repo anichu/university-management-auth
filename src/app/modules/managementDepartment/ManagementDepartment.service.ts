@@ -1,7 +1,7 @@
 import { SortOrder } from 'mongoose';
-import { paginationHelpers } from '../../helpers/paginationHelpers';
-import { IGenericResponse } from '../../interfaces/common';
-import { IPaginationOptions } from '../../interfaces/pagination';
+import { paginationHelpers } from '../../../helpers/paginationHelpers';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import { managementDepartmentSearchableFields } from './managementDepartment.constant';
 import {
   IManagementDepartment,

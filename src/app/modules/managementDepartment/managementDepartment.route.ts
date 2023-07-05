@@ -1,5 +1,5 @@
 import express from 'express';
-import validateRequest from '../middlewares/validateRequest';
+import validateRequest from '../../middlewares/validateRequest';
 import { ManagementDepartmentController } from './ManagementDepartment.controller';
 import { ManagementDepartmentValidation } from './managementDepartment.validation';
 
